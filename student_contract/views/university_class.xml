@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="university_class_view_tree" model="ir.ui.view">
+            <field name="name">university.class.view.tree</field>
+            <field name="model">university.class</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" required="1" />
+                    <field name="credit_unity" required="1" />
+                    <field name="active" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="university_class_view_form" model="ir.ui.view">
+            <field name="name">university.class.class.view.form</field>
+            <field name="model">university.class</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" />
+                                <field name="credit_unity" required="1" />
+                            </group>
+                            <group>
+                                <field name="active" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_university_class_view" model="ir.actions.act_window">
+            <field name="name">Clases</field>
+            <field name="res_model">university.class</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="menu_action_university_class"
+            action="action_university_class_view"
+            parent="student_contract.root_menu_student_contract"
+            groups="student_contract.group_student_contract_user_selector,student_contract.group_student_contract_user_root"
+            sequence="30"/>
+    </data>
+</odoo>

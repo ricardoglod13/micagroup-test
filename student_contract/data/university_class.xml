@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="university_class_001" model="university.class">
+            <field name="name">Matemáticas I</field>
+            <field name="credit_unity">3</field>
+        </record>
+        <record id="university_class_002" model="university.class">
+            <field name="name">Matemáticas II</field>
+            <field name="credit_unity">5</field>
+        </record>
+        <record id="university_class_003" model="university.class">
+            <field name="name">Fisica I</field>
+            <field name="credit_unity">5</field>
+        </record>
+        <record id="university_class_004" model="university.class">
+            <field name="name">Fisica II</field>
+            <field name="credit_unity">5</field>
+        </record>
+        <record id="university_class_005" model="university.class">
+            <field name="name">Inglés</field>
+            <field name="credit_unity">2</field>
+        </record>
+        <record id="university_class_006" model="university.class">
+            <field name="name">Inglés Técnico</field>
+            <field name="credit_unity">4</field>
+        </record> 
+        <record id="university_class_007" model="university.class">
+            <field name="name">Programación I</field>
+            <field name="credit_unity">4</field>
+        </record>
+        <record id="university_class_008" model="university.class">
+            <field name="name">Programación II</field>
+            <field name="credit_unity">5</field>
+        </record>   
+    </data>
+</odoo>

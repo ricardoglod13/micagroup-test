@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="student_contract_view_tree" model="ir.ui.view">
+            <field name="name">student.contract.view.tree</field>
+            <field name="model">student.contract</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="student_id" />
+                    <field name="date_from" />
+                    <field name="date_to" />
+                    <field name="state" widget="badge"
+                        decoration-muted="state == 'draft'"
+                        decoration-success="state == 'posted'"
+                        decoration-danger="state == 'expired'" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="student_contract_view_from" model="ir.ui.view">
+            <field name="name">student.contract.view.form</field>
+            <field name="model">student.contract</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar-visible="draft,posted" />
+                        <button string="Publicar"
+                            name="action_posted" 
+                            type="object" 
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            confirm="¿Seguro desea publicar el contrato?" 
+                            groups="student_contract.group_student_contract_user_selector" />
+                        <button string="Volver a borrador"
+                            name="action_draft"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'posted')]}"
+                            confirm="¿Seguro desea volver a borrador el contrato?"
+                            groups="student_contract.group_student_contract_user_selector" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="student_id" 
+                                required="1" 
+                                options="{'no_open': True, 'no_create': True}"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                            <field name="date_from" required="1"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                            <field name="date_to" required="1"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                        </group>
+                        <notebook>
+                            <page name="class_ids" string="Clases">
+                                <field name="class_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="class_id" required="1" options="{'no_open': True, 'no_create': True}" />
+                                        <field name="teacher_id" required="1" options="{'no_open': True, 'no_create': True}" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="teacher_student_class_view_form" model="ir.ui.view">
+            <field name="name">teacher.student.class.view.form</field>
+            <field name="model">teacher.student.class</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="contract_id" required="1" />
+                            <field name="class_id" required="1" />
+                            <field name="teacher_id" required="1" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    
+        <record id="action_student_contract_view" model="ir.actions.act_window">
+            <field name="name">Contrato de Estudiante</field>
+            <field name="res_model">student.contract</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="root_menu_student_contract"
+            name="Contrato de Estudiante"
+            web_icon="student_contract,static/description/icon.png"
+            sequence="10"/>
+
+        <menuitem
+            id="menu_student_contract"
+            name="Contrato de Estudiante"
+            action="action_student_contract_view"
+            groups="student_contract.group_student_contract_user_student"
+            parent="student_contract.root_menu_student_contract"
+            sequence="20"/>
+    </data>
+</odoo>

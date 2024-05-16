@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="student_contract_report">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="student_contract.student_contract_template" />
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="student_contract_template" name="student_contract_template">
+        <div class="header">
+            <table class="table-borderless w-100">
+                <tr>
+                    <td>
+                        <img t-if="env.company.logo" t-att-src="image_data_uri(env.company.logo)" class="float-left" style="max-width:200px; max-height:125px;" />
+                    </td>
+                    <td style="text-align:right;">
+                        <span>Fecha de emisión: <t t-out="o.create_date.strftime('%d/%m/%Y %H:%M')"/></span><br/>
+                        <span>Creado por: <t t-out="o.create_uid.name"/></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="body">
+            <h3>
+                Contrato de Estudiante <t t-out="o.name"/>
+            </h3>
+            <table class="table-borderless w-50 mt-3">
+                <tr>
+                    <td>
+                        <span>Estudiante: <t t-out="o.student_id.name"/></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Período: <t t-out="o.date_from.strftime('%d/%m/%Y')"/> - <t t-out="o.date_to.strftime('%d/%m/%Y')"/></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Estado del Contrato: <t t-out="o._get_spanish_state()"/></span>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-bordered w-100" style="margin-top:150px;">
+                <thead>
+                    <tr>
+                        <th>Clase</th>
+                        <th>Profesor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div t-foreach="o.class_ids" t-as="class">
+                        <tr>
+                            <td><span t-out="class.class_id.name"/></td>
+                            <td><span t-out="class.teacher_id.name"/></td>
+                        </tr>
+                    </div>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <record id="paperformat_student_contract_report" model="report.paperformat">
+        <field name="name">Contrato de Estudiante</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+    </record>
+
+    <record id="action_batch_payments_report" model="ir.actions.report">
+        <field name="name">Reporte Contrato de Estudiente</field>
+        <field name="model">student.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">student_contract.student_contract_report</field>
+        <field name="report_file">student_contract.student_contract_report</field>
+        <field name="binding_model_id" ref="student_contract.model_student_contract"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">"Reporte Contrato de Estudiente"</field>
+        <field name="paperformat_id" ref="paperformat_student_contract_report"/>
+    </record>
+</odoo>
